@@ -48,7 +48,7 @@ public class Number extends AppCompatActivity {
                     number5 = Integer.parseInt(input5.getText().toString());
                     number6 = Integer.parseInt(input6.getText().toString());
                     number7 = Integer.parseInt(input7.getText().toString());
-                    int[] numbers = {number1,number2,number3,number4,number5,number6,number7};
+                    final int[] numbers = {number1,number2,number3,number4,number5,number6,number7};
 
                     for(int i = 0; i < numbers.length; i++) {
                         for(int j = i + 1; j < numbers.length; j++) {
@@ -75,8 +75,34 @@ public class Number extends AppCompatActivity {
                             return;
                         }
                     }
+                    
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Number.this);
+                    builder.setCancelable(true);
+                    builder.setTitle("Confirm");
+                    String msg = "";
+                    for(int i = 0; i<numbers.length;i++){
+                        msg = msg + "\t" + String.valueOf(numbers[i]);
+                    }
+                    builder.setMessage("Are these the numbers you want to enter: \n" + msg);
+                    builder.setPositiveButton("Confirm",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    openSubmitActivity(numbers);
+                                }
+                            });
+                    builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(Number.this, Number.class);
+                            startActivity(intent);
+                        }
+                    });
 
-                    openSubmitActivity(numbers);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+
 
                 }catch (Exception e){
                     //Catching Errors
