@@ -75,13 +75,13 @@ public class Number extends AppCompatActivity {
                             return;
                         }
                     }
-                    
+
                     AlertDialog.Builder builder = new AlertDialog.Builder(Number.this);
                     builder.setCancelable(true);
                     builder.setTitle("Confirm");
                     String msg = "";
                     for(int i = 0; i<numbers.length;i++){
-                        msg = msg + "\t" + String.valueOf(numbers[i]);
+                        msg = msg + "\t\t\t" + String.valueOf(numbers[i]);
                     }
                     builder.setMessage("Are these the numbers you want to enter: \n" + msg);
                     builder.setPositiveButton("Confirm",
