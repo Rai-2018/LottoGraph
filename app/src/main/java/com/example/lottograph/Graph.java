@@ -35,6 +35,12 @@ import java.util.List;
 public class  Graph extends AppCompatActivity {
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     protected void onStart( ) {
         super.onStart();
         setContentView(R.layout.activity_graph);
@@ -139,6 +145,8 @@ public class  Graph extends AppCompatActivity {
             startActivity(intent);
             e.printStackTrace();
         }
+
+
     }
 
     private void next(){
@@ -154,7 +162,7 @@ public class  Graph extends AppCompatActivity {
         TextView currentnum = (TextView) findViewById(R.id.currentNum);
         String input = currentnum.getText().toString();
         int nextnum = Integer.parseInt(input);
-        if(nextnum == 1){return;}
+        if(nextnum == 0){return;}
         nextnum = nextnum - 1;
         currentnum.setText(String.valueOf(nextnum));
     }
