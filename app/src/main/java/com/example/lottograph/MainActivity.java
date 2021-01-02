@@ -14,9 +14,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button GraphView;
-        GraphView = (Button) findViewById(R.id.GraphView) ;
-
+        Button GraphView = (Button) findViewById(R.id.GraphView) ;
         GraphView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -24,13 +22,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button Number;
-        Number = (Button) findViewById(R.id.View) ;
-
+        Button Number = (Button) findViewById(R.id.View) ;
         Number.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openNumber();
+            }
+        });
+
+        Button ViewAll = (Button) findViewById(R.id.Number) ;
+        ViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openViewAll();
             }
         });
     }
@@ -42,6 +46,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void openNumber() {
         Intent intent = new Intent(this, Number.class);
+        startActivity(intent);
+    }
+
+    private void openViewAll() {
+        Intent intent = new Intent(this, AllNumber.class);
         startActivity(intent);
     }
 

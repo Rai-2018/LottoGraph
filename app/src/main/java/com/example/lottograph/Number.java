@@ -102,8 +102,6 @@ public class Number extends AppCompatActivity {
                     AlertDialog dialog = builder.create();
                     dialog.show();
 
-
-
                 }catch (Exception e){
                     //Catching Errors
                     new AlertDialog.Builder(Number.this)
@@ -126,44 +124,53 @@ public class Number extends AppCompatActivity {
 
     private void openSubmitActivity(int[] Array) {
         Intent intent = new Intent(this, Graph.class);
-
         try{
             int linecount = 1;
+            // Preparing txt file for numbers in the graph
             File file = new File(this.getCacheDir(), "lottoGraph.txt");
             FileOutputStream fos = null;
             int[] results = new int[49];
 
-            if(file.length() == 0){
+            // Preparing txt file for Viewing all number
+            File cacheFile = new File(this.getCacheDir(), "lotto.txt");
+            FileOutputStream cachefos = null;
+            int[] cache_results = new int[7];
+
+            if(file.length() == 0) {
+                // Prepare a line of zeros at very beginning
                 fos = new FileOutputStream(file);
                 for (int i = 0; i < 49; i++){
-                    results[i] = 0;
-                }
-                for(int i : results){
-                    String toWrite = String.valueOf(i) + "\t";
+                    String toWrite = String.valueOf(0) + "\t";
                     fos.write(toWrite.getBytes());
                 }
                 fos.write("\n".getBytes());
-                fos = new FileOutputStream(file, true);
+
+                // Creating the txt file for Viewing all number
+                cachefos = new FileOutputStream(cacheFile);
+                for (int i = 0; i < 7; i++) {
+                    String toWrite = String.valueOf(0) + "\t";
+                    cachefos.write(toWrite.getBytes());
+                }
+                cachefos.write("\n".getBytes());
 
             } else {
-                fos = new FileOutputStream(file, true);
+                String last = null,lines = null;
                 FileInputStream fis = new FileInputStream(file);
-
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fis));
-                String lines;
-                String lastLine = "";
+
                 // Reading last line of the text file
                 while ((lines = bufferedReader.readLine()) != null) {
-                    lastLine = lines;
+                    last = lines;
                     linecount += 1;
                 }
                 // Parse the result of the last line and decrement
-                String[] intarray = lastLine.split("\t");
+                String[] intarray = last.split("\t");
                 for (int i = 0; i < intarray.length; i++)
                     results[i] = Integer.parseInt(intarray[i]);
             }
+            fos = new FileOutputStream(file, true);
 
-            if(linecount > 30+1){
+            if(linecount > 31) {
                 fos = new FileOutputStream(file);
                 for(int i : results){
                     String toWrite = String.valueOf(i) + "\t";
@@ -171,6 +178,22 @@ public class Number extends AppCompatActivity {
                 }
                 fos.write("\n".getBytes());
                 fos = new FileOutputStream(file, true);
+
+                // Reading of cache view all
+                String last = null,lines = null;
+                FileInputStream cache_fis = new FileInputStream(cacheFile);
+                BufferedReader cache_bufferedReader = new BufferedReader(new InputStreamReader(cache_fis));
+                while ((lines = cache_bufferedReader.readLine()) != null) {
+                    last = lines;
+                }
+                String[] intarray = last.split("\t");
+                cachefos = new FileOutputStream(cacheFile);
+                for (int i = 0; i < intarray.length; i++) {
+                    cache_results[i] = Integer.parseInt(intarray[i]);
+                    String toWrite = String.valueOf(cache_results[i]) + "\t";
+                    cachefos.write(toWrite.getBytes());
+                }
+                cachefos.write("\n".getBytes());
             }
 
             for(int i = 0; i <49;i++){
@@ -180,13 +203,21 @@ public class Number extends AppCompatActivity {
                     }
                 }
                 results[i] -= 1;
-            }
-            for(int i : results){
-                String toWrite = String.valueOf(i) + "\t";
+                String toWrite = String.valueOf(results[i]) + "\t";
                 fos.write(toWrite.getBytes());
             }
             fos.write("\n".getBytes());
             fos.close();
+
+            cachefos = new FileOutputStream(cacheFile, true);
+            for(int i :Array){
+                String toWrite = String.valueOf(i) + "\t";
+                cachefos.write(toWrite.getBytes());
+            }
+            cachefos.write("\n".getBytes());
+            cachefos.close();
+
+
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
